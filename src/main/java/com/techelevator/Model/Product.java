@@ -38,4 +38,11 @@ public abstract class Product implements Reaction {
         return sound;
     }
 
+
+    @Override
+    public String toString() {
+        String output = String.format("%5s %-20.20s $%4.2f  %5d  %n", slot, name, price, inventory);
+        return output;
+    }
+
 }
