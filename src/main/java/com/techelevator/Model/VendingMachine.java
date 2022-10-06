@@ -10,7 +10,11 @@ public class VendingMachine {
     private BigDecimal bankOverall;
     private Map<String,Product> productMap = new TreeMap<>();
 
-    public VendingMachine(BigDecimal payment,
+    public VendingMachine(){
+       payment = new BigDecimal(0.0);
+       bankOverall = new BigDecimal(0.0);
+
+    }
 }
 
 
