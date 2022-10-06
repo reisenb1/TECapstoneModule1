@@ -19,6 +19,16 @@ public class VendingMachine {
        bankOverall = new BigDecimal(0.0);
     }
 
+
+    public BigDecimal insertBills(int moneyPaid) {
+        payment = payment.add(new BigDecimal(moneyPaid));
+        return payment;
+    }
+
+    public BigDecimal getPayment() {
+        return payment;
+    }
+
     public Map<String, Product> getProductMap() {
         return productMap;
     }
