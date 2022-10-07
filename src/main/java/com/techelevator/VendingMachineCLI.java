@@ -95,6 +95,7 @@ public class VendingMachineCLI {
 				}
 				System.out.println("Please select slot for the item you would like: ");
 				String itemSelection = userInput.nextLine();
+				itemSelection = itemSelection.toUpperCase();
 
 
 				if (!productMap.containsKey(itemSelection)) {
@@ -125,6 +126,12 @@ public class VendingMachineCLI {
 
 			} else if (choice.equals(SUB_MENU_OPTION_FINISH_TRANSACTION)) {
 				// finish transaction
+
+				int[] finishTransactionArray = vendingMachine.finishTransaction(vendingMachine.getPayment());
+				String finishMessage = String.format("Your change is %d quarter(s), %d dime(s), and %d nickel(s)", finishTransactionArray[0], finishTransactionArray[1], finishTransactionArray[2]);
+				System.out.println(finishMessage);
+				System.out.println("=====================================================================");
+				System.out.println("There is now a $" + vendingMachine.getPayment() + " balance on the machine");
 				options = MAIN_MENU_OPTIONS;
 			}
 

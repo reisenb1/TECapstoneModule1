@@ -3,6 +3,7 @@ package com.techelevator.Model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -10,13 +11,11 @@ import java.util.TreeMap;
 public class VendingMachine {
 
     private BigDecimal payment;
-    private BigDecimal bankOverall;
     private Map<String,Product> productMap = new TreeMap<>();
     private final String inputFilePath = "vendingmachine.csv";
 
     public VendingMachine(){
        payment = new BigDecimal(0.0);
-       bankOverall = new BigDecimal(0.0);
     }
 
 
@@ -63,6 +62,23 @@ public class VendingMachine {
 
     }
 
+    public int[] finishTransaction(BigDecimal paymentAmount) {
+        BigDecimal paymentAmountCents = paymentAmount.multiply(new BigDecimal(100));
+
+        BigDecimal paymentAmountCentsRounded = paymentAmountCents.setScale(0, RoundingMode.HALF_UP);
+
+        int paymentAmountCentsInt = paymentAmountCentsRounded.intValue();
+        int[] change = new int[3];
+        //Number of quarters returned
+        change[0] = paymentAmountCentsInt / 25;
+        //Number of dimes returned
+        change[1] = (paymentAmountCentsInt % 25) / 10;
+        //Number of nickels returned
+        change[2] = ((paymentAmountCentsInt % 25) % 10) / 5;
+
+        payment = new BigDecimal(0);
+        return change;
+    }
 }
 
 
