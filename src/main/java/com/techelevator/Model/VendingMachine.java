@@ -14,9 +14,9 @@ public class VendingMachine {
     private BigDecimal payment;
     private Map<String,Product> productMap = new TreeMap<>();
     private final String inputFilePath = "vendingmachine.csv";
-    private File log = new File("Log.txt");
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyy HH:mm:ss a");
-    private LocalDateTime now = LocalDateTime.now();
+    private File log = new File("Log.log");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyy hh:mm:ss a");
+
 
     public VendingMachine() throws IOException {
 
@@ -34,10 +34,11 @@ public class VendingMachine {
         payment = payment.add(new BigDecimal(moneyPaid));
         BigDecimal paymentDoubleRounded = payment.setScale(2, RoundingMode.HALF_UP);
         double moneyPaidDouble = (double)moneyPaid;
-
+        LocalDateTime now = LocalDateTime.now();
         String logMessage = String.format("%22s FEED MONEY: $%.2f $%.2f %n", dtf.format(now), moneyPaidDouble, paymentDoubleRounded);
         boolean append = log.exists() ? true : false;
         PrintWriter writer = new PrintWriter(new FileOutputStream(log, append));
+
         writer.print(logMessage);
         writer.flush();
         writer.close();
@@ -80,6 +81,7 @@ public class VendingMachine {
         int remainingInventory = productMap.get(input).getInventory() - 1;
 
         productMap.get(input).setInventory(remainingInventory);
+        LocalDateTime now = LocalDateTime.now();
         String logMessage = String.format("%22s %s %2s $%.2f $%.2f %n", dtf.format(now), productMap.get(input).getName(), input, cost, payment);
         boolean append = log.exists() ? true : false;
         PrintWriter writer = new PrintWriter(new FileOutputStream(log, append));
@@ -90,7 +92,7 @@ public class VendingMachine {
 
     }
 
-    public int[] finishTransaction(BigDecimal paymentAmount) {
+    public int[] finishTransaction(BigDecimal paymentAmount) throws FileNotFoundException{
         BigDecimal paymentAmountCents = paymentAmount.multiply(new BigDecimal(100));
 
         BigDecimal paymentAmountCentsRounded = paymentAmountCents.setScale(0, RoundingMode.HALF_UP);
@@ -105,6 +107,14 @@ public class VendingMachine {
         change[2] = ((paymentAmountCentsInt % 25) % 10) / 5;
 
         payment = new BigDecimal(0);
+
+        LocalDateTime now = LocalDateTime.now();
+        String logMessage = String.format("%22s GIVE CHANGE: $%.2f $%.2f %n", dtf.format(now), paymentAmount, payment);
+        boolean append = log.exists() ? true : false;
+        PrintWriter writer = new PrintWriter(new FileOutputStream(log, append));
+        writer.print(logMessage);
+        writer.flush();
+        writer.close();
 
 
         return change;

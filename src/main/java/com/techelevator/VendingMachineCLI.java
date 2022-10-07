@@ -147,7 +147,13 @@ public class VendingMachineCLI {
 			} else if (choice.equals(SUB_MENU_OPTION_FINISH_TRANSACTION)) {
 				// finish transaction
 
-				int[] finishTransactionArray = vendingMachine.finishTransaction(vendingMachine.getPayment());
+				int[] finishTransactionArray = new int[0];
+				try {
+					finishTransactionArray = vendingMachine.finishTransaction(vendingMachine.getPayment());
+				} catch (FileNotFoundException e) {
+					System.out.println("Log File not found");
+
+				}
 				String finishMessage = String.format("Your change is %d quarter(s), %d dime(s), and %d nickel(s)", finishTransactionArray[0], finishTransactionArray[1], finishTransactionArray[2]);
 				System.out.println(finishMessage);
 				System.out.println("=====================================================================");

@@ -85,9 +85,27 @@ public class VendingMachineTest {
         int[] expectedArray3 = {17, 1, 1};
 
         //Act
-        int[] change1 = finishTransactionTest.finishTransaction(payment1);
-        int[] change2 = finishTransactionTest.finishTransaction(payment2);
-        int[] change3 = finishTransactionTest.finishTransaction(payment3);
+        int[] change1 = new int[0];
+        try {
+            change1 = finishTransactionTest.finishTransaction(payment1);
+        } catch (FileNotFoundException e) {
+            System.out.println("Log File not found");
+
+        }
+        int[] change2 = new int[0];
+        try {
+            change2 = finishTransactionTest.finishTransaction(payment2);
+        } catch (FileNotFoundException e) {
+            System.out.println("Log File not found");
+
+        }
+        int[] change3 = new int[0];
+        try {
+            change3 = finishTransactionTest.finishTransaction(payment3);
+        } catch (FileNotFoundException e) {
+            System.out.println("Log File not found");
+
+        }
 
 
         //Assert
