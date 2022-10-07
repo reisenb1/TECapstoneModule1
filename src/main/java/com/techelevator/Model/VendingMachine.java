@@ -15,7 +15,7 @@ public class VendingMachine {
     private Map<String,Product> productMap = new TreeMap<>();
     private final String inputFilePath = "vendingmachine.csv";
     private File log = new File("Log.log");
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyy hh:mm:ss a");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
 
 
     public VendingMachine() throws IOException {
