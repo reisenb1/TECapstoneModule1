@@ -38,6 +38,9 @@ public abstract class Product implements Reaction {
         return sound;
     }
 
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
 
     @Override
     public String toString() {

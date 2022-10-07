@@ -5,6 +5,7 @@ import com.techelevator.Model.VendingMachine;
 import com.techelevator.view.Menu;
 
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -63,10 +64,7 @@ public class VendingMachineCLI {
 				running = false;
 				System.out.println("Thank you for purchasing, from team 3!!");
 			}
-
-
-
-
+			
 			else if (choice.equals(SUB_MENU_OPTION_FEED_MONEY)) {
 				// feed money code
 				System.out.println("Please insert money in whole dollar amount(1, 5, or 10): ");
@@ -87,9 +85,6 @@ public class VendingMachineCLI {
 			}
 
 
-
-
-
 			else if (choice.equals(SUB_MENU_OPTION_SELECT_PRODUCT)) {
 				// select product code
 				Map<String, Product> productMap = vendingMachine.getProductMap();
@@ -98,7 +93,33 @@ public class VendingMachineCLI {
 					Product value = entry.getValue();
 					System.out.println(value);
 				}
+				System.out.println("Please select slot for the item you would like: ");
+				String itemSelection = userInput.nextLine();
 
+
+				if (!productMap.containsKey(itemSelection)) {
+					System.out.println("That is an invalid selection, please select again.");
+					options = SUB_MENU_OPTIONS;
+				} else if (productMap.get(itemSelection).getInventory() == 0) {
+					System.out.println("Item is currently sold out, please select again.");
+					options = SUB_MENU_OPTIONS;
+				} else if (productMap.get(itemSelection).getPrice().compareTo(vendingMachine.getPayment()) == 1) {
+					System.out.println("You do not have enough money, please insert more or select another product.");
+					options = SUB_MENU_OPTIONS;
+				} else {
+					vendingMachine.productSelection(itemSelection);
+
+					String selectionName = productMap.get(itemSelection).getName();
+					BigDecimal cost = productMap.get(itemSelection).getPrice();
+					String sound = productMap.get(itemSelection).getSound();
+
+					System.out.println("You've selected " + selectionName + "; it cost $" + cost + ". " + sound);
+					System.out.println("==============================================================");
+
+				}
+
+				String message = String.format("There is now $%5.2f in the vending machine", vendingMachine.getPayment());
+				System.out.println(message);
 
 
 
