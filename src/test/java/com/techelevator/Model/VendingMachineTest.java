@@ -3,6 +3,8 @@ package com.techelevator.Model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 public class VendingMachineTest {
@@ -11,7 +13,11 @@ public class VendingMachineTest {
     @Test
     public void initialLoad() {
         //Arrange
-        VendingMachine vendingMachine = new VendingMachine();
+        try {
+            VendingMachine vendingMachine = new VendingMachine();
+        } catch (IOException e) {
+            System.out.println("Unable to create log");
+        }
         //Act
 
         //Assert
@@ -21,15 +27,35 @@ public class VendingMachineTest {
     @Test
     public void insertBills() {
         //Arrange
-        VendingMachine insertBillTest = new VendingMachine();
+        VendingMachine insertBillTest = null;
+        try {
+            insertBillTest = new VendingMachine();
+        } catch (IOException e) {
+            System.out.println("Unable to create log");
+        }
         BigDecimal actual = new BigDecimal(3);
         BigDecimal actual1 = new BigDecimal(4);
         BigDecimal actual2 = new BigDecimal(6);
 
         //Act
-        BigDecimal money = insertBillTest.insertBills(3);
-        BigDecimal money1 = insertBillTest.insertBills(1);
-        BigDecimal money2 = insertBillTest.insertBills(2);
+        BigDecimal money = null;
+        try {
+            money = insertBillTest.insertBills(3);
+        } catch (FileNotFoundException e) {
+            System.out.println("Log File not found");
+        }
+        BigDecimal money1 = null;
+        try {
+            money1 = insertBillTest.insertBills(1);
+        } catch (FileNotFoundException e) {
+            System.out.println("Log File not found");
+        }
+        BigDecimal money2 = null;
+        try {
+            money2 = insertBillTest.insertBills(2);
+        } catch (FileNotFoundException e) {
+            System.out.println("Log File not found");
+        }
 
 
         //Assert
@@ -44,7 +70,12 @@ public class VendingMachineTest {
     @Test
     public void finishTransaction() {
         //Arrange
-        VendingMachine finishTransactionTest = new VendingMachine();
+        VendingMachine finishTransactionTest = null;
+        try {
+            finishTransactionTest = new VendingMachine();
+        } catch (IOException e) {
+            System.out.println("Unable to create log");
+        }
         BigDecimal payment1 = new BigDecimal(10);
         BigDecimal payment2 = new BigDecimal(5.35);
         BigDecimal payment3 = new BigDecimal(4.40);

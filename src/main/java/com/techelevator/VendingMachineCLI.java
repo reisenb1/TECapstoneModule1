@@ -5,6 +5,7 @@ import com.techelevator.Model.VendingMachine;
 import com.techelevator.view.Menu;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Scanner;
@@ -36,7 +37,12 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
-		VendingMachine vendingMachine = new VendingMachine();
+		VendingMachine vendingMachine = null;
+		try {
+			vendingMachine = new VendingMachine();
+		} catch (IOException e) {
+			System.out.println("Unable to create log");
+		}
 		try {
 			vendingMachine.initialLoad();
 		} catch (FileNotFoundException e) {
@@ -70,11 +76,21 @@ public class VendingMachineCLI {
 				System.out.println("Please insert money in whole dollar amount(1, 5, or 10): ");
 				String input = userInput.nextLine();
 				if(input.equals("1")) {
-					vendingMachine.insertBills(1);
+					try {
+						vendingMachine.insertBills(1);
+					} catch (FileNotFoundException e) {
+						System.out.println("Log File not found");					}
 				} else if(input.equals("5")) {
-					vendingMachine.insertBills(5);
+					try {
+						vendingMachine.insertBills(5);
+					} catch (FileNotFoundException e) {
+						System.out.println("Log File not found");					}
 				} else if (input.equals("10")) {
-					vendingMachine.insertBills(10);
+					try {
+						vendingMachine.insertBills(10);
+					} catch (FileNotFoundException e) {
+						System.out.println("Log File not found");
+					}
 				} else {
 					System.out.println("================================================");
 					System.out.println("MUST ENTER AN AMOUNT EQUAL TO 1, 5, OR 10");

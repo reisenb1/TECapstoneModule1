@@ -1,9 +1,10 @@
 package com.techelevator.Model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -13,14 +14,30 @@ public class VendingMachine {
     private BigDecimal payment;
     private Map<String,Product> productMap = new TreeMap<>();
     private final String inputFilePath = "vendingmachine.csv";
+    private File log = new File("Log.txt");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyy HH:mm:ss a");
+    private LocalDateTime now = LocalDateTime.now();
 
-    public VendingMachine(){
-       payment = new BigDecimal(0.0);
+    public VendingMachine() throws IOException {
+
+        payment = new BigDecimal(0.0);
+        log.createNewFile();
     }
 
 
-    public BigDecimal insertBills(int moneyPaid) {
+    public BigDecimal insertBills(int moneyPaid) throws FileNotFoundException {
         payment = payment.add(new BigDecimal(moneyPaid));
+        BigDecimal paymentDoubleRounded = payment.setScale(2, RoundingMode.HALF_UP);
+        double moneyPaidDouble = (double)moneyPaid;
+
+        String logMessage = String.format("%22s FEED MONEY: $%.2f $%.2f %n", dtf.format(now), moneyPaidDouble, paymentDoubleRounded);
+        boolean append = log.exists() ? true : false;
+//        String logMessage = dtf.format(now) + " FEED MONEY: $" + moneyPaidDouble + " $" + paymentDoubleRounded;
+        PrintWriter writer = new PrintWriter(new FileOutputStream(log, append));
+        writer.println(logMessage);
+        writer.flush();
+        writer.close();
+        writer.
         return payment;
     }
 
@@ -77,8 +94,14 @@ public class VendingMachine {
         change[2] = ((paymentAmountCentsInt % 25) % 10) / 5;
 
         payment = new BigDecimal(0);
+
+
         return change;
+
+
     }
+
+
 }
 
 
