@@ -51,6 +51,17 @@ public class VendingMachine {
             }
     }
 
+    public void productSelection(String input) {
+
+        BigDecimal cost = productMap.get(input).getPrice();
+
+        payment = payment.subtract(cost);
+
+        int remainingInventory = productMap.get(input).getInventory() - 1;
+
+        productMap.get(input).setInventory(remainingInventory);
+
+    }
 
 }
 
