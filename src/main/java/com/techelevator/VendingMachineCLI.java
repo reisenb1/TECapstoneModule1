@@ -124,7 +124,11 @@ public class VendingMachineCLI {
 					System.out.println("You do not have enough money, please insert more or select another product.");
 					options = SUB_MENU_OPTIONS;
 				} else {
-					vendingMachine.productSelection(itemSelection);
+					try {
+						vendingMachine.productSelection(itemSelection);
+					} catch (FileNotFoundException e) {
+						System.out.println("Log File not found");
+					}
 
 					String selectionName = productMap.get(itemSelection).getName();
 					BigDecimal cost = productMap.get(itemSelection).getPrice();

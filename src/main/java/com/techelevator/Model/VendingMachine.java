@@ -21,7 +21,12 @@ public class VendingMachine {
     public VendingMachine() throws IOException {
 
         payment = new BigDecimal(0.0);
-        log.createNewFile();
+        if (log.exists()) {
+            log.delete();
+            log.createNewFile();
+        }else {
+            log.createNewFile();
+        }
     }
 
 
@@ -32,12 +37,11 @@ public class VendingMachine {
 
         String logMessage = String.format("%22s FEED MONEY: $%.2f $%.2f %n", dtf.format(now), moneyPaidDouble, paymentDoubleRounded);
         boolean append = log.exists() ? true : false;
-//        String logMessage = dtf.format(now) + " FEED MONEY: $" + moneyPaidDouble + " $" + paymentDoubleRounded;
         PrintWriter writer = new PrintWriter(new FileOutputStream(log, append));
-        writer.println(logMessage);
+        writer.print(logMessage);
         writer.flush();
         writer.close();
-        writer.
+
         return payment;
     }
 
@@ -67,7 +71,7 @@ public class VendingMachine {
             }
     }
 
-    public void productSelection(String input) {
+    public void productSelection(String input) throws FileNotFoundException{
 
         BigDecimal cost = productMap.get(input).getPrice();
 
@@ -76,6 +80,13 @@ public class VendingMachine {
         int remainingInventory = productMap.get(input).getInventory() - 1;
 
         productMap.get(input).setInventory(remainingInventory);
+        String logMessage = String.format("%22s %s %2s $%.2f $%.2f %n", dtf.format(now), productMap.get(input).getName(), input, cost, payment);
+        boolean append = log.exists() ? true : false;
+        PrintWriter writer = new PrintWriter(new FileOutputStream(log, append));
+        writer.print(logMessage);
+        writer.flush();
+        writer.close();
+
 
     }
 
