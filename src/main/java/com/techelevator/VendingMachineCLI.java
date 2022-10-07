@@ -101,6 +101,7 @@ public class VendingMachineCLI {
 
 
 
+
 			} else if (choice.equals(SUB_MENU_OPTION_FINISH_TRANSACTION)) {
 				// finish transaction
 				options = MAIN_MENU_OPTIONS;
